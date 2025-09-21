@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>কাশিনাথপুর মহিলা ডিগ্রি কলেজ</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+body{background:#0a0f1c;color:white;overflow-x:hidden;scroll-behavior:smooth;display:flex;}
+/* Sidebar */
+.sidebar{
+  position:fixed;top:0;left:0;width:250px;height:100vh;background:rgba(10,15,28,0.95);backdrop-filter:blur(12px);padding-top:50px;
+  display:flex;flex-direction:column;align-items:flex-start;gap:30px;z-index:1000;box-shadow:2px 0 25px rgba(0,0,0,0.5);
+transition:0.4s;
+}
+.sidebar.hidden{transform:translateX(-260px);}
+.sidebar h1{
+  font-size:1.5rem;font-weight:800;color:#38bdf8;padding-left:20px;text-shadow:0 0 5px #38bdf8;
+}
+.sidebar ul{list-style:none;width:100%;display:flex;flex-direction:column;gap:20px;margin-top:50px;}
+.sidebar ul li{
+  cursor:pointer;padding:10px 20px;font-weight:600;color:white;transition:0.3s;border-radius:10px;
+}
+.sidebar ul li:hover{
+  background:linear-gradient(90deg,#06b6d4,#3b82f6);
+color:white;
+  transform:scale(1.05);
+  box-shadow:0 0 15px rgba(59,130,246,0.7);
+}
+/* Sidebar Toggle Button */
+#menuToggle{
+  position:fixed;top:20px;left:20px;width:35px;height:30px;cursor:pointer;z-index:1100;display:flex;flex-direction:column;justify-content:space-between;
+}
+#menuToggle div{
+  width:35px;height:4px;background:#38bdf8;border-radius:2px;transition:0.3s;
+}
+/* Main Content */
+.main-content{
+  margin-left:250px;
+  width:calc(100% - 250px);
+  flex:1;
+  transition:margin-left 0.4s;
+}
+.main-content.shifted{margin-left:0;}
+/* Hero */
+.hero{
+  height:100vh;position:relative;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;
+  perspective:1000px;transition:transform 0.2s ease-out;
+}
+.hero::before{
+  content:"";position:absolute;inset:0;
+  background:url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?auto=format&fit=crop&w=1500&q=80') center/cover fixed no-repeat;
+  transform:translateZ(0);filter: brightness(0.6);transition: transform 0.5s ease;
+}
+.hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(56,189,248,0.5),rgba(59,130,246,0.5));mix-blend-mode:multiply;}
+/* Animated Title */
+.hero-content{position:relative;z-index:2;max-width:900px;}
+.hero-content h2{
+  font-size:3rem;font-weight:800;
+  background:linear-gradient(90deg,#38bdf8,#facc15,#38bdf8);
+-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  animation:waveText 4s ease-in-out infinite, glowText 2s ease-in-out infinite, scaleText 6s ease-in-out infinite;
+  text-shadow:0 0 10px #38bdf8,0 0 20px #facc15;
+}
+.hero-content p{font-size:1.2rem;margin-bottom:2rem;color:#cbd5e1;text-shadow:0 0 5px rgba(0,0,0,0.3);}
+.hero-content a{
+  display:inline-block;padding:1rem 2rem;background:linear-gradient(135deg,#06b6d4,#3b82f6);
+  border-radius:30px;color:#fff;font-weight:600;text-decoration:none;
+  transition:.3s;box-shadow:0 0 15px rgba(59,130,246,0.5);
+}
+.hero-content a:hover{
+  transform:scale(1.05);
+box-shadow:0 0 50px rgba(59,130,246,0.9);
+  animation:buttonPulse 1.5s infinite;
+}
+/* Particles */
+.particle{position:absolute;width:5px;height:5px;background:white;border-radius:50%;opacity:0.7;animation:float 15s linear infinite;}
+@keyframes float{0%{transform:translateY(0px) translateX(0px);}50%{transform:translateY(-200px) translateX(100px);}100%{transform:translateY(0px) translateX(-100px);}}
+/* Text Animations */
+@keyframes waveText{0%,100%{transform:translateY(0px);}50%{transform:translateY(-15px);}}
+@keyframes glowText{0%,100%{text-shadow:0 0 10px #38bdf8,0 0 20px #facc15;}50%{text-shadow:0 0 20px #38bdf8,0 0 40px #facc15;}}
+@keyframes scaleText{0%,100%{transform:scale(1);}50%{transform:scale(1.05);}}
+@keyframes buttonPulse{0%,100%{box-shadow:0 0 50px rgba(59,130,246,0.9);}50%{box-shadow:0 0 70px rgba(59,130,246,1);}}
+/* Dashboard */
+.dashboard{padding:100px 5%;display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:30px;}
+.card{
+  background:rgba(255,255,255,0.05);border-radius:20px;padding:30px;text-align:center;
+backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.1);
+  box-shadow:0 8px 25px rgba(0,0,0,0.3);transition:0.5s;transform:translateY(30px);opacity:0;
+}
+.card.visible{transform:translateY(0) rotateX(0deg);opacity:1;transition:all 0.8s ease;}
+.card:hover{transform:translateY(-15px) rotateX(10deg) scale(1.07);box-shadow:0 25px 60px rgba(0,0,0,0.8);border:1px solid #38bdf8;}
+.card h3{margin-bottom:15px;font-size:1.4rem;color:#38bdf8;text-shadow:0 0 10px #38bdf8;}
+.card p{color:#cbd5e1;font-size:.95rem;text-shadow:0 0 5px rgba(0,0,0,0.3);}
+/* Teacher Table and Notice Text specific styles */
+.card .table-wrapper, .card .scroll-buttons, .card .notice-text, .prayer-times-table, .student-info-table{
+  display: none;
+}
+.card .notice-text{
+  text-align: left;
+  line-height: 1.6;
+  font-size: 1rem;
+  padding-top: 15px;
+}
+/* Notice Text Highlighted Style */
+.notice-text h4 {
+  color: #38bdf8;
+/* Highlight color */
+  text-shadow: 0 0 5px #38bdf8;
+  margin-bottom: 10px;
+}
+/* Teacher Table */
+#teacherTable{
+  width: auto;
+min-width: 100%;
+  border-collapse: collapse;
+}
+#teacherTable th, #teacherTable td{border:1px solid #38bdf8;padding:10px;text-align:left;}
+#teacherTable th{background:rgba(56,189,248,0.3);color:white;}
+#teacherTable td{color:#cbd5e1;}
+/* Prayer Times Table */
+.prayer-times-table {
+  width: 100%;
+margin-top: 20px;
+  border-collapse: collapse;
+}
+.prayer-times-table th, .prayer-times-table td {
+  padding: 12px;
+  text-align: center;
+border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f0f4f8;
+}
+.prayer-times-table th {
+  background: rgba(59, 130, 246, 0.4);
+  font-weight: bold;
+}
+.prayer-times-table td {
+  background: rgba(255, 255, 255, 0.1);
+}
+.prayer-times-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.05);
+}
+/* Student Info Table */
+.student-info-table{
+  width: 100%;
+  margin-top: 20px;
+  border-collapse: collapse;
+}
+.student-info-table th, .student-info-table td {
+  padding: 12px;
+text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #f0f4f8;
+}
+.student-info-table th {
+  background: rgba(59, 130, 246, 0.4);
+font-weight: bold;
+}
+.student-info-table td {
+  background: rgba(255, 255, 255, 0.1);
+}
+.student-info-table tr:nth-child(even) td {
+  background: rgba(255, 255, 255, 0.05);
+}
+.student-info-table tfoot td {
+  font-weight: bold;
+background: rgba(59, 130, 246, 0.6);
+}
+/* Text Animation for Student Numbers */
+@keyframes color-change {
+  0% { color: #ff6347;
+}
+  50% { color: #66cdaa; }
+  100% { color: #4682b4; }
+}
+.animate-text {
+  animation: color-change 1s infinite alternate;
+}
+/* Notice Ticker */
+.ticker{background:rgba(0,0,0,0.3);padding:15px 30px;margin:30px 0;border-radius:15px;overflow:hidden;position:relative;}
+.ticker p{white-space:nowrap;display:inline-block;animation:scrollTicker 20s linear infinite;font-weight:600;color:#facc15;text-shadow:0 0 10px #facc15;}
+@keyframes scrollTicker{0%{transform:translateX(100%);}100%{transform:translateX(-100%);}}
+/* New Scroll Button */
+.scroll-buttons{
+  display: flex;
+justify-content: center;
+  gap: 10px;
+  margin-top: 15px;
+}
+.scroll-buttons button{
+  padding: 8px 15px;
+  background: linear-gradient(135deg, #06b6d4, #3b82f6);
+  border: none;
+  border-radius: 20px;
+color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.5);
+}
+.scroll-buttons button:hover{
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.7);
+}
+/* Table Wrapper for horizontal scroll */
+.table-wrapper{
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-top: 20px;
+}
+.card .table-wrapper, .card .scroll-buttons{
+  display: none;
+}
+</style>
+</head>
+<body>
+<div class="sidebar" id="sidebar">
+  <h1>কাশিনাথপুর মহিলা ডিগ্রি কলেজ</h1>
+  <ul>
+    <li data-target="teacher">Teacher Info</li>
+    <li data-target="student">Student Info</li>
+    <li data-target="notice">Notice Board</li>
+    <li data-target="prayer">Prayer Time</li>
+  </ul>
+</div>
+<div id="menuToggle">
+  <div></div>
+  <div></div>
+  <div></div>
+</div>
+<div class="main-content" id="mainContent">
+  <section class="hero" id="hero">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <h2>কাশিনাথপুর মহিলা ডিগ্রি কলেজ</h2>
+      <p>Empowering Women Through Knowledge & Excellence</p>
+      <a href="#dashboard">Explore Dashboard</a>
+    </div>
+   
+  <div id="particles"></div>
+  </section>
+  <div class="ticker">
+    <p>📢 Welcome to KWDC! |
+Upcoming Exams: 25 Sep | Orientation: 30 Sep | New Courses Added! |
+New Admission Starts from October 1st, 2025</p>
+  </div>
+  <section class="dashboard" id="dashboard">
+    <div class="card" id="teacher">
+      <h3>👩‍🏫 Teacher Information</h3>
+      <p>Click to see all teacher details.</p>
+      <div class="table-wrapper" id="teacherTableWrapper">
+        <table id="teacherTable">
+          <thead>
+            <tr>
+              <th>ক্রমিক নং</th>
+              <th>নাম</th>
+              <th>ফোন</th>
+              <th>বিষয়</th>
+              <th>অভিজ্ঞতা</th>
+              <th>পদমর্যাদা</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>1</td><td><span class="animate-text">Rina Akter</span></td><td>01712345678</td><td>Mathematics</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>2</td><td><span class="animate-text">Sabina Khatun</span></td><td>01898765432</td><td>Physics</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>3</td><td><span class="animate-text">Fariha Sultana</span></td><td>01911223344</td><td>Chemistry</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>4</td><td><span class="animate-text">Jannatul Ferdous</span></td><td>01622334455</td><td>English</td><td>4 years</td><td>Lecturer</td></tr>
+            <tr><td>5</td><td><span class="animate-text">Laila Begum</span></td><td>01511223344</td><td>Biology</td><td>9 years</td><td>Associate Professor</td></tr>
+            <tr><td>6</td><td><span class="animate-text">Nusrat Jahan</span></td><td>01755667788</td><td>History</td><td>3 years</td><td>Lecturer</td></tr>
+            <tr><td>7</td><td><span class="animate-text">Farhana Khan</span></td><td>01877665544</td><td>Economics</td><td>8 years</td><td>Assistant Professor</td></tr>
+            <tr><td>8</td><td><span class="animate-text">Shahnaz Parveen</span></td><td>01998877665</td><td>Political Science</td><td>10 years</td><td>Professor</td></tr>
+            <tr><td>9</td><td><span class="animate-text">Tamanna Rima</span></td><td>01633445566</td><td>Sociology</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>10</td><td><span class="animate-text">Mitu Roy</span></td><td>01788990011</td><td>Psychology</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>11</td><td><span class="animate-text">Sultana Razia</span></td><td>01577889900</td><td>Bengali</td><td>12 years</td><td>Professor</td></tr>
+            <tr><td>12</td><td><span class="animate-text">Fatema Tuz Zohora</span></td><td>01812345678</td><td>ICT</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>13</td><td><span class="animate-text">Rubina Afroj</span></td><td>01798765432</td><td>Finance</td><td>4 years</td><td>Lecturer</td></tr>
+            <tr><td>14</td><td><span class="animate-text">Amena Akter</span></td><td>01955667788</td><td>Accounting</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>15</td><td><span class="animate-text">Khaleda Zia</span></td><td>01644556677</td><td>Management</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>16</td><td><span class="animate-text">Shamima Rahman</span></td><td>01733445566</td><td>Statistics</td><td>8 years</td><td>Assistant Professor</td></tr>
+            <tr><td>17</td><td><span class="animate-text">Yasmin Ara</span></td><td>01833224455</td><td>Civics</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>18</td><td><span class="animate-text">Sumaiya Akter</span></td><td>01966778899</td><td>Geography</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>19</td><td><span class="animate-text">Ishrat Jahan</span></td><td>01588776655</td><td>Islam</td><td>9 years</td><td>Associate Professor</td></tr>
+            <tr><td>20</td><td><span class="animate-text">Mariam Begum</span></td><td>01744556677</td><td>Home Economics</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>21</td><td><span class="animate-text">Sadia Tabassum</span></td><td>01611223344</td><td>Drawing</td><td>4 years</td><td>Lecturer</td></tr>
+            <tr><td>22</td><td><span class="animate-text">Pritilata Sen</span></td><td>01822334455</td><td>Physics Lab</td><td>3 years</td><td>Lecturer</td></tr>
+            <tr><td>23</td><td><span class="animate-text">Bristi Chowdhury</span></td><td>01933445566</td><td>Chemistry Lab</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>24</td><td><span class="animate-text">Nazma Sultana</span></td><td>01544556677</td><td>Biology Lab</td><td>8 years</td><td>Assistant Professor</td></tr>
+            <tr><td>25</td><td><span class="animate-text">Farida Parveen</span></td><td>01789012345</td><td>Physical Education</td><td>11 years</td><td>Professor</td></tr>
+            <tr><td>26</td><td><span class="animate-text">Tasnim Fariha</span></td><td>01656789012</td><td>Librarian</td><td>10 years</td><td>Associate Professor</td></tr>
+            <tr><td>27</td><td><span class="animate-text">Shirin Akter</span></td><td>01876543210</td><td>History & Culture</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>28</td><td><span class="animate-text">Kamrun Nahar</span></td><td>01909876543</td><td>Philosophy</td><td>9 years</td><td>Associate Professor</td></tr>
+            <tr><td>29</td><td><span class="animate-text">Salma Begum</span></td><td>01723456789</td><td>Agriculture</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>30</td><td><span class="animate-text">Afroza Begum</span></td><td>01812345679</td><td>Home Economics</td><td>4 years</td><td>Lecturer</td></tr>
+            <tr><td>31</td><td><span class="animate-text">Zinnat Ara</span></td><td>01712345680</td><td>Bengali</td><td>8 years</td><td>Assistant Professor</td></tr>
+            <tr><td>32</td><td><span class="animate-text">Rehana Akhter</span></td><td>01912345681</td><td>English</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>33</td><td><span class="animate-text">Shaheda Parveen</span></td><td>01612345682</td><td>Mathematics</td><td>10 years</td><td>Professor</td></tr>
+            <tr><td>34</td><td><span class="animate-text">Jahanara Islam</span></td><td>01812345683</td><td>Physics</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>35</td><td><span class="animate-text">Nargis Afroj</span></td><td>01712345684</td><td>Chemistry</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>36</td><td><span class="animate-text">Kohinur Begum</span></td><td>01912345685</td><td>Biology</td><td>9 years</td><td>Associate Professor</td></tr>
+            <tr><td>37</td><td><span class="animate-text">Shabana Begum</span></td><td>01612345686</td><td>History</td><td>3 years</td><td>Lecturer</td></tr>
+            <tr><td>38</td><td><span class="animate-text">Monira Khatun</span></td><td>01812345687</td><td>Economics</td><td>8 years</td><td>Assistant Professor</td></tr>
+            <tr><td>39</td><td><span class="animate-text">Dilruba Akter</span></td><td>01712345688</td><td>Political Science</td><td>10 years</td><td>Professor</td></tr>
+            <tr><td>40</td><td><span class="animate-text">Sumi Akter</span></td><td>01912345689</td><td>Sociology</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>41</td><td><span class="animate-text">Maksuda Khanam</span></td><td>01612345690</td><td>Psychology</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>42</td><td><span class="animate-text">Rupali Begum</span></td><td>01812345691</td><td>Bengali</td><td>12 years</td><td>Professor</td></tr>
+            <tr><td>43</td><td><span class="animate-text">Jinia Roy</span></td><td>01712345692</td><td>ICT</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>44</td><td><span class="animate-text">Tanjila Islam</span></td><td>01912345693</td><td>Finance</td><td>4 years</td><td>Lecturer</td></tr>
+            <tr><td>45</td><td><span class="animate-text">Nusrat Begum</span></td><td>01612345694</td><td>Accounting</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>46</td><td><span class="animate-text">Mahbuba Akter</span></td><td>01812345695</td><td>Management</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>47</td><td><span class="animate-text">Sabikun Nahar</span></td><td>01712345696</td><td>Statistics</td><td>8 years</td><td>Assistant Professor</td></tr>
+            <tr><td>48</td><td><span class="animate-text">Ayesha Siddiqua</span></td><td>01912345697</td><td>Civics</td><td>7 years</td><td>Assistant Professor</td></tr>
+            <tr><td>49</td><td><span class="animate-text">Fatema Khanam</span></td><td>01612345698</td><td>Geography</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>50</td><td><span class="animate-text">Farida Yasmin</span></td><td>01812345699</td><td>Islam</td><td>9 years</td><td>Associate Professor</td></tr>
+            <tr><td>51</td><td><span class="animate-text">Shimu Rahman</span></td><td>01712345700</td><td>Home Economics</td><td>6 years</td><td>Lecturer</td></tr>
+            <tr><td>52</td><td><span class="animate-text">Panna Akter</span></td><td>01912345701</td><td>Drawing</td><td>4 years</td><td>Lecturer</td></tr>
+            <tr><td>53</td><td><span class="animate-text">Shirin Sultana</span></td><td>01612345702</td><td>Physics Lab</td><td>3 years</td><td>Lecturer</td></tr>
+            <tr><td>54</td><td><span class="animate-text">Jahida Begum</span></td><td>01812345703</td><td>Chemistry Lab</td><td>5 years</td><td>Lecturer</td></tr>
+            <tr><td>55</td><td><span class="animate-text">Salma Akter</span></td><td>01712345704</td><td>Biology Lab</td><td>8 years</td><td>Assistant Professor</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="scroll-buttons" id="scrollButtons">
+        <button id="scrollLeftBtn">◀️ Left</button>
+        <button id="scrollRightBtn">Right ▶️</button>
+      </div>
+    </div>
+    <div class="card" id="student">
+      <h3>🎓 Student Information</h3>
+      <p>Click to see total student counts by class and section.</p>
+     
+  <div id="studentTableContainer" class="student-info-table">
+        <table>
+          <thead>
+            <tr>
+              <th>শ্রেণী</th>
+              <th>বিভাগ</th>
+              <th>শিক্ষার্থী সংখ্যা</th>
+            </tr>
+          </thead>
+  
+         <tbody>
+            <tr>
+              <td>একাদশ (XI)</td>
+              <td>বিজ্ঞান</td>
+              <td class="animate-text">৮৫</td>
+            </tr>
+            <tr>
+            
+   <td>একাদশ (XI)</td>
+              <td>মানবিক</td>
+              <td class="animate-text">১৩০</td>
+            </tr>
+            <tr>
+              <td>একাদশ (XI)</td>
+              <td>ব্যবসায় শিক্ষা</td>
+              
+ <td class="animate-text">৬০</td>
+            </tr>
+            <tr>
+              <td>দ্বাদশ (XII)</td>
+              <td>বিজ্ঞান</td>
+              <td class="animate-text">৯২</td>
+            </tr>
+            <tr>
+       
+        <td>দ্বাদশ (XII)</td>
+              <td>মানবিক</td>
+              <td class="animate-text">১৪৫</td>
+            </tr>
+            <tr>
+              <td>দ্বাদশ (XII)</td>
+              <td>ব্যবসায় শিক্ষা</td>
+         
+      <td class="animate-text">৭০</td>
+            </tr>
+            <tr>
+              <td>অন্যান্য</td>
+              <td> - </td>
+              <td class="animate-text">৬৬</td>
+            </tr>
+          </tbody>
+   
+        <tfoot>
+            <tr>
+              <td colspan="2">সর্বমোট শিক্ষার্থী</td>
+              <td class="animate-text">৬৪৮</td>
+            </tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+    <div class="card" id="notice">
+    
+   <h3>📢 Notice Board</h3>
+      <p>Latest updates, announcements, exam schedules & events.</p>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১</h4>
+        <p>
+          প্রিয় শিক্ষার্থী এবং অভিভাবকবৃন্দ, কাশিনাথপুর মহিলা ডিগ্রি কলেজে আপনাদের স্বাগতম।
+আমরা অত্যন্ত গর্বিত যে আমরা নারী শিক্ষার প্রসারে একটি গুরুত্বপূর্ণ ভূমিকা পালন করে আসছি।
+আমাদের কলেজটি এমন একটি আদর্শ শিক্ষাপ্রতিষ্ঠান হিসেবে প্রতিষ্ঠিত, যেখানে শুধু পাঠ্যপুস্তক জ্ঞানই নয়, বরং নৈতিক মূল্যবোধ, সৃজনশীলতা এবং নেতৃত্ব বিকাশের ওপরও সমান গুরুত্ব দেওয়া হয়।
+আমরা শিক্ষার্থীদেরকে এমনভাবে প্রস্তুত করি যাতে তারা আগামী দিনের চ্যালেঞ্জ মোকাবিলা করতে পারে এবং সমাজের জন্য ইতিবাচক অবদান রাখতে পারে।
+আমাদের অভিজ্ঞ শিক্ষকবৃন্দ আধুনিক শিক্ষাদান পদ্ধতি ব্যবহার করে শিক্ষার্থীদেরকে সর্বোত্তম শিক্ষা নিশ্চিত করেন।
+শ্রেণিকক্ষ থেকে শুরু করে বিজ্ঞানাগার, কম্পিউটার ল্যাব এবং লাইব্রেরি পর্যন্ত সকল সুবিধা উন্নত মানের।
+<br><br>
+          কলেজের পরিবেশ অত্যন্ত বন্ধুত্বপূর্ণ এবং নিরাপদ, যা শিক্ষার্থীদের জন্য একটি অনুকূল শিক্ষা সহায়ক স্থান তৈরি করে।
+নিয়মিত শিক্ষাসফরের আয়োজন, সাংস্কৃতিক অনুষ্ঠান, বিতর্ক প্রতিযোগিতা, এবং খেলাধুলা শিক্ষার্থীদের বহুমুখী প্রতিভা বিকাশে সাহায্য করে।
+আমরা বিশ্বাস করি, একটি সমৃদ্ধ সমাজ গঠনে নারী শিক্ষা অপরিহার্য।
+কাশিনাথপুর মহিলা ডিগ্রি কলেজ সেই বিশ্বাসের ওপর ভিত্তি করে কাজ করে যাচ্ছে। সকল শিক্ষার্থীর উজ্জ্বল ভবিষ্যৎ এবং সাফল্য কামনা করছি।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-২</h4>
+        <p>
+          গুরুত্বপূর্ণ নোটিশ: আগামী শিক্ষাবর্ষের ভর্তি প্রক্রিয়া শুরু হয়েছে!
+আগ্রহী শিক্ষার্থীরা ৩০শে সেপ্টেম্বর, ২০২৫ তারিখের মধ্যে অনলাইনে অথবা সরাসরি কলেজ অফিসে এসে আবেদনপত্র সংগ্রহ করতে পারবে।
+ভর্তির জন্য প্রয়োজনীয় সকল কাগজপত্র, যেমন - পূর্ববর্তী পরীক্ষার ফলাফল, প্রশংসাপত্র, ছবি এবং অন্যান্য প্রাসঙ্গিক নথি আবেদনপত্রের সাথে জমা দিতে হবে।
+বিস্তারিত তথ্য এবং নির্দেশাবলী আমাদের কলেজের অফিসিয়াল ওয়েবসাইট এবং মূল নোটিশ বোর্ডে প্রকাশ করা হয়েছে।
+<br><br>
+          এছাড়াও, আগামী ২৫শে সেপ্টেম্বর থেকে একাদশ এবং দ্বাদশ শ্রেণীর শিক্ষার্থীদের জন্য বার্ষিক পরীক্ষার রুটিন প্রকাশ করা হবে।
+শিক্ষার্থীরা কলেজের ওয়েবসাইট এবং নোটিশ বোর্ডে রুটিন দেখতে পারবে। সকল শিক্ষার্থীকে কঠোরভাবে পরীক্ষার প্রস্তুতি নেওয়ার জন্য উৎসাহিত করা হচ্ছে।
+যেকোনো জিজ্ঞাসা বা সহায়তার জন্য, শিক্ষার্থীরা কলেজের প্রশাসনিক বিভাগে যোগাযোগ করতে পারে। সকলের সর্বাঙ্গীন মঙ্গল এবং সাফল্য কামনা করছি।
+<br><br>
+          ধন্যবাদান্তে,
+          অধ্যক্ষ
+          কাশিনাথপুর মহিলা ডিগ্রি কলেজ
+        </p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-৩</h4>
+        <p>
+          নোটিশ ৩: কলেজ প্রাঙ্গণে আসন্ন বার্ষিক ক্রীড়া প্রতিযোগিতা সম্পর্কিত জরুরি বিজ্ঞপ্তি।
+আগামী ১৫ই অক্টোবর, ২০২৫ তারিখ থেকে আমাদের কলেজের বার্ষিক ক্রীড়া প্রতিযোগিতা অনুষ্ঠিত হবে।
+সকল শিক্ষার্থীকে এই প্রতিযোগিতায় অংশগ্রহণের জন্য আমন্ত্রণ জানানো হচ্ছে। বিভিন্ন ইভেন্টে নাম অন্তর্ভুক্তির জন্য, শিক্ষার্থীরা তাদের নিজ নিজ ক্লাস শিক্ষকের সাথে যোগাযোগ করবে।
+নাম জমা দেওয়ার শেষ তারিখ হলো ৫ই অক্টোবর, ২০২৫। অংশগ্রহণের নিয়মাবলী এবং প্রতিটি ইভেন্টের সময়সূচী আগামী ১লা অক্টোবর নোটিশ বোর্ডে প্রকাশ করা হবে।
+<br><br>
+          প্রতিযোগিতায় অংশগ্রহণকারীদের জন্য কিছু নির্দেশনা: ১.
+খেলাধুলার সময় অবশ্যই কলেজের নির্ধারিত পোশাক পরিধান করতে হবে। ২. প্রতিটি ইভেন্টের জন্য সময়মতো মাঠে উপস্থিত থাকতে হবে। ৩.
+ক্রীড়া শিক্ষক এবং আয়োজক কমিটির সকল নির্দেশনা মেনে চলতে হবে। ৪.
+সুষ্ঠু ও শৃঙ্খলাবদ্ধ পরিবেশ বজায় রাখতে সবাইকে সহযোগিতা করতে হবে।
+ক্রীড়া প্রতিযোগিতার মাধ্যমে আমরা শিক্ষার্থীদের শারীরিক ও মানসিক বিকাশের পাশাপাশি তাদের মধ্যে নেতৃত্ব এবং দলগত মনোভাব গড়ে তুলতে চাই।
+এই প্রতিযোগিতাকে সফল করতে আমরা সকলের সক্রিয় অংশগ্রহণ প্রত্যাশা করছি।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-৪</h4>
+        <p>
+          নোটিশ ৪: নবীনবরণ অনুষ্ঠান এবং সাংস্কৃতিক সন্ধ্যা সম্পর্কে ঘোষণা।
+আগামী ৮ই নভেম্বর, ২০২৫ তারিখে আমাদের কলেজের নতুন শিক্ষার্থীদের বরণ করে নেওয়ার জন্য এক জাঁকজমকপূর্ণ নবীনবরণ অনুষ্ঠানের আয়োজন করা হয়েছে।
+এর পাশাপাশি, একই সন্ধ্যায় একটি মনোজ্ঞ সাংস্কৃতিক সন্ধ্যারও ব্যবস্থা থাকবে, যেখানে শিক্ষার্থীরা গান, নৃত্য, কবিতা আবৃত্তি এবং নাটকের মতো বিভিন্ন অনুষ্ঠানে অংশ নিতে পারবে।
+এই অনুষ্ঠানটি নতুন শিক্ষার্থীদের জন্য কলেজ জীবনের একটি স্মরণীয় মুহূর্ত তৈরি করবে।
+<br><br>
+          এই অনুষ্ঠানে অংশগ্রহণে আগ্রহী শিক্ষার্থীরা আগামী ৩০শে অক্টোবর পর্যন্ত তাদের নাম নিবন্ধন করতে পারবে।
+সাংস্কৃতিক অনুষ্ঠানে পারফর্ম করতে ইচ্ছুক শিক্ষার্থীরা কলেজের সাংস্কৃতিক কমিটির সাথে যোগাযোগ করে তাদের নাম এবং অনুষ্ঠানের বিবরণ জমা দেবে।
+অনুষ্ঠানের বিস্তারিত সময়সূচী এবং স্থান শীঘ্রই নোটিশ বোর্ডে জানিয়ে দেওয়া হবে।
+আমরা সকল শিক্ষার্থীকে এই আনন্দঘন অনুষ্ঠানে অংশ নিয়ে এটিকে সফল করতে অনুরোধ করছি।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-৫</h4>
+        <p>
+          নোটিশ ৫: কলেজের লাইব্রেরি ব্যবহার সম্পর্কিত নতুন নিয়মাবলী।
+শিক্ষার্থীদের সুবিধার্থে এবং লাইব্রেরির শৃঙ্খলা বজায় রাখার জন্য কিছু নতুন নিয়ম কার্যকর করা হয়েছে।
+আগামী ১লা অক্টোবর, ২০২৫ থেকে এই নিয়মগুলো মেনে চলতে হবে। নিয়মাবলী: ১.
+প্রতিটি শিক্ষার্থী তাদের কলেজ আইডি কার্ড দেখিয়ে বই ধার নিতে পারবে। ২.
+একবারে সর্বোচ্চ দুটি বই ১৪ দিনের জন্য ধার নেওয়া যাবে। ৩.
+নির্ধারিত সময়ের মধ্যে বই ফেরত না দিলে প্রতি দিনের জন্য জরিমানা ধার্য করা হবে।
+<br><br>
+          ৪. লাইব্রেরির অভ্যন্তরে সম্পূর্ণ নীরবতা বজায় রাখতে হবে।
+কোনো ধরনের আলাপ-আলোচনা বা উচ্চস্বরে কথা বলা থেকে বিরত থাকতে হবে। ৫. খাবারের কোনো জিনিস লাইব্রেরিতে আনা যাবে না। ৬.
+বইয়ে কোনো ধরনের দাগ দেওয়া বা পৃষ্ঠা ছেঁড়া কঠোরভাবে নিষিদ্ধ।
+যদি কোনো বইয়ের ক্ষতি হয়, তাহলে শিক্ষার্থীকে ওই বইয়ের মূল্য অথবা লাইব্রেরি কর্তৃপক্ষের সিদ্ধান্ত অনুযায়ী জরিমানা দিতে হবে।
+এই নিয়মগুলো মেনে চললে লাইব্রেরি ব্যবহারের একটি সুন্দর পরিবেশ নিশ্চিত করা সম্ভব হবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-৬</h4>
+        <p>
+          নোটিশ ৬: একাদশ শ্রেণীর শিক্ষার্থীদের জন্য মাসিক পরীক্ষার সময়সূচী।
+আগামী ১০ই অক্টোবর থেকে একাদশ শ্রেণীর শিক্ষার্থীদের মাসিক পরীক্ষা শুরু হবে। এই পরীক্ষাটি তাদের বার্ষিক পরীক্ষার প্রস্তুতির জন্য অত্যন্ত গুরুত্বপূর্ণ।
+পরীক্ষার সময়সূচী কলেজের নোটিশ বোর্ডে বিস্তারিতভাবে প্রকাশ করা হয়েছে। সকল শিক্ষার্থীকে নির্ধারিত সময়ে পরীক্ষার হলে উপস্থিত হওয়ার জন্য অনুরোধ করা হচ্ছে।
+<br><br>
+          পরীক্ষার সময়সূচী: প্রথম দিন - বাংলা, দ্বিতীয় দিন - ইংরেজি, তৃতীয় দিন - গণিত, চতুর্থ দিন - পদার্থবিজ্ঞান/অর্থনীতি, পঞ্চম দিন - রসায়ন/পৌরনীতি ও সুশাসন, ষষ্ঠ দিন - জীববিদ্যা/ভূগোল, সপ্তম দিন - আইসিটি।
+সকল শিক্ষার্থীর প্রবেশপত্র পরীক্ষার এক সপ্তাহ আগে ক্লাস টিচারের কাছ থেকে সংগ্রহ করতে হবে।
+যদি কোনো শিক্ষার্থী অসুস্থ থাকে, তাহলে তাদের অভিভাবককে অবশ্যই কলেজ কর্তৃপক্ষকে লিখিতভাবে জানাতে হবে।
+পরীক্ষার হলে কোনো প্রকার অসদুপায় অবলম্বন করলে কঠোর শাস্তিমূলক ব্যবস্থা নেওয়া হবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-৮</h4>
+        <p>
+          নোটিশ ৮: ইংরেজি ভাষা ক্লাবের নতুন সদস্য ভর্তি।
+কাশিনাথপুর মহিলা ডিগ্রি কলেজের ইংরেজি ভাষা ক্লাব নতুন সদস্য ভর্তির ঘোষণা দিচ্ছে।
+যদি আপনি ইংরেজি ভাষায় আপনার দক্ষতা বৃদ্ধি করতে চান, তাহলে এই ক্লাবটি আপনার জন্য একটি দুর্দান্ত সুযোগ।
+ক্লাবটি নিয়মিত ইংরেজি বিতর্ক, পাবলিক স্পিকিং সেশন, এবং ইংরেজি নাটকের আয়োজন করে থাকে।
+এতে অংশগ্রহণের মাধ্যমে আপনি আপনার যোগাযোগের দক্ষতা বাড়াতে পারবেন।
+          <br><br>
+          আগ্রহী শিক্ষার্থীরা আগামী ২০শে অক্টোবর, ২০২৫ তারিখের মধ্যে ক্লাব উপদেষ্টার কাছে নাম জমা দিতে পারবে।
+ক্লাবের সদস্য হতে কোনো ফি লাগবে না। ইংরেজি ভাষা ক্লাবের লক্ষ্য হলো শিক্ষার্থীদের মধ্যে ইংরেজির প্রতি আগ্রহ তৈরি করা এবং তাদের ভাষার দক্ষতা বৃদ্ধি করা।
+আমরা আশা করি, অনেক শিক্ষার্থী এই সুযোগটি গ্রহণ করবে এবং ক্লাবের কার্যক্রমে সক্রিয়ভাবে অংশগ্রহণ করবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-৯</h4>
+        <p>
+          নোটিশ ৯: বিজ্ঞান মেলা ও উদ্ভাবনী প্রতিযোগিতা সম্পর্কিত বিজ্ঞপ্তি।
+আগামী ১৪ই নভেম্বর, ২০২৫ তারিখে আমাদের কলেজে এক বিশাল বিজ্ঞান মেলার আয়োজন করা হচ্ছে।
+এই মেলায় শিক্ষার্থীরা তাদের নিজস্ব উদ্ভাবনী প্রকল্প প্রদর্শন করতে পারবে।
+বিজ্ঞান বিভাগের সকল শিক্ষার্থীকে এই মেলায় অংশগ্রহণের জন্য উৎসাহিত করা হচ্ছে।
+এটি তাদের বৈজ্ঞানিক জ্ঞান এবং সৃজনশীলতা প্রদর্শনের একটি চমৎকার সুযোগ।
+<br><br>
+          প্রকল্প জমা দেওয়ার শেষ তারিখ হলো ৫ই নভেম্বর, ২০২৫।
+প্রকল্পের বিষয় হতে পারে জীববিজ্ঞান, রসায়ন, পদার্থবিজ্ঞান, এবং তথ্য ও যোগাযোগ প্রযুক্তি (ICT) সম্পর্কিত যেকোনো কিছু।
+বিজয়ী প্রকল্পগুলোকে আকর্ষণীয় পুরস্কার প্রদান করা হবে। বিচারক প্যানেলে কলেজের অভিজ্ঞ শিক্ষকবৃন্দ এবং বাইরে থেকে আগত বিশেষজ্ঞরা থাকবেন।
+এই মেলাটি আমাদের কলেজের শিক্ষার্থীদের মধ্যে বিজ্ঞানমনস্কতা এবং গবেষণার প্রতি আগ্রহ সৃষ্টি করবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১০</h4>
+        <p>
+          নোটিশ ১০: কলেজের বার্ষিক ম্যাগাজিন 'আলোর দিশা' এর জন্য লেখা আহ্বান।
+আমাদের কলেজের বার্ষিক ম্যাগাজিন 'আলোর দিশা' প্রকাশের জন্য সকল শিক্ষার্থী এবং শিক্ষকের কাছ থেকে লেখা আহ্বান করা হচ্ছে।
+আপনার লেখাটি কবিতা, ছোট গল্প, প্রবন্ধ, ভ্রমণ কাহিনী, বা রম্য রচনা হতে পারে।
+লেখা জমা দেওয়ার শেষ তারিখ হলো ১৫ই নভেম্বর, ২০২৫।
+          <br><br>
+          লেখার নিয়মাবলী: ১.
+লেখাটি অবশ্যই মৌলিক হতে হবে। ২. লেখার ভাষা বাংলা অথবা ইংরেজি হতে পারে। ৩.
+লেখাটি ওয়ার্ড ফরম্যাটে টাইপ করে জমা দিতে হবে। ৪. লেখার সাথে শিক্ষার্থীর নাম, শ্রেণী, এবং রোল নম্বর উল্লেখ করতে হবে।
+৫. প্রতিটি লেখা ম্যাগাজিন কমিটির সদস্যদের দ্বারা যাচাই করা হবে এবং সম্পাদকের সিদ্ধান্তই চূড়ান্ত বলে গণ্য হবে।
+ম্যাগাজিনটি আমাদের কলেজের একটি প্রতিফলন, তাই আমরা আশা করি সকলের সুন্দর লেখা দিয়ে এটি সমৃদ্ধ হবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১১</h4>
+        <p>
+          নোটিশ ১১: পিতামাতা-শিক্ষক সম্মেলন (PTM) সম্পর্কিত ঘোষণা।
+আগামী ৩০শে সেপ্টেম্বর, ২০২৫ তারিখে সকাল ১০টা থেকে দুপুর ২টা পর্যন্ত কলেজ প্রাঙ্গণে একটি পিতামাতা-শিক্ষক সম্মেলন অনুষ্ঠিত হবে।
+এই সম্মেলনে অভিভাবকগণ তাদের সন্তানের একাডেমিক পারফরম্যান্স, আচরণ এবং সামগ্রিক অগ্রগতি সম্পর্কে শিক্ষকদের সাথে সরাসরি আলোচনা করার সুযোগ পাবেন।
+<br><br>
+          এই সম্মেলনটি শিক্ষার্থীদের উন্নয়নের জন্য শিক্ষক এবং অভিভাবকদের মধ্যে একটি শক্তিশালী যোগসূত্র স্থাপন করতে সাহায্য করবে।
+আমরা সকল অভিভাবকের সক্রিয় অংশগ্রহণ প্রত্যাশা করছি। এটি শিক্ষার্থীদের দুর্বলতা চিহ্নিত করতে এবং তা কাটিয়ে উঠতে প্রয়োজনীয় পদক্ষেপ গ্রহণে সহায়ক হবে।
+দয়া করে নির্ধারিত সময়ে উপস্থিত থাকবেন এবং শিক্ষকদের সাথে ফলপ্রসূ আলোচনার মাধ্যমে আপনার সন্তানের ভবিষ্যৎ শিক্ষাজীবনে একটি ইতিবাচক প্রভাব ফেলবেন।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১২</h4>
+        <p>
+          নোটিশ ১২: বিশেষ ক্লাস ও সংশোধনী সেশন সম্পর্কিত বিজ্ঞপ্তি।
+আসন্ন বার্ষিক পরীক্ষার আগে, শিক্ষার্থীদের প্রস্তুতির সুবিধার্থে কিছু বিশেষ ক্লাস এবং সংশোধনী সেশনের ব্যবস্থা করা হয়েছে।
+এই ক্লাসগুলো আগামী ১লা অক্টোবর থেকে শুরু হবে এবং প্রতিদিন বিকাল ৪টা থেকে ৫:৩০টা পর্যন্ত চলবে।
+প্রতিটি বিষয়ের জন্য পৃথক ক্লাস নেওয়া হবে।
+          <br><br>
+          এই সেশনগুলোতে শিক্ষার্থীরা তাদের প্রশ্ন জিজ্ঞাসা করতে পারবে এবং যে কোনো বিষয়ে তাদের সমস্যাগুলো সমাধান করতে পারবে।
+এই ক্লাসগুলো শিক্ষার্থীদের পরীক্ষার জন্য আত্মবিশ্বাস বাড়াতে সাহায্য করবে। সকল শিক্ষার্থীকে এই ক্লাসগুলোতে নিয়মিত এবং সময়মতো উপস্থিত থাকার জন্য অনুরোধ করা হচ্ছে।
+এই সুযোগটি কাজে লাগিয়ে আপনারা আপনাদের পরীক্ষার প্রস্তুতিকে আরও শক্তিশালী করতে পারবেন।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৩</h4>
+        <p>
+          নোটিশ ১৩: কলেজ ক্যান্টিন সম্পর্কিত নতুন নিয়মাবলী।
+শিক্ষার্থীদের স্বাস্থ্য ও নিরাপত্তা নিশ্চিত করতে কলেজ ক্যান্টিনে কিছু নতুন নিয়ম কার্যকর করা হয়েছে।
+আগামী ১লা অক্টোবর, ২০২৫ থেকে এই নিয়মগুলো মেনে চলতে হবে। নিয়মাবলী: ১. ক্যান্টিনে পরিষ্কার-পরিচ্ছন্নতা বজায় রাখতে হবে। ২.
+খাবারের পর অবশিষ্ট অংশ নির্ধারিত ডাস্টবিনে ফেলতে হবে। ৩. ক্যান্টিনের কোনো আসবাবপত্রের ক্ষতি করা যাবে না।
+<br><br>
+          ৪.
+মূল্য তালিকা ক্যান্টিনে স্পষ্টভাবে প্রদর্শিত হবে এবং সকলকে সেই মূল্য অনুযায়ী পরিশোধ করতে হবে। ৫.
+ক্যান্টিনের খাবারের মান এবং স্বাস্থ্যবিধি কঠোরভাবে পর্যবেক্ষণ করা হবে। যদি কোনো শিক্ষার্থী খাবারের মান সম্পর্কে কোনো অভিযোগ জানাতে চায়, তাহলে তারা কলেজের প্রশাসনিক বিভাগে যোগাযোগ করতে পারে।
+এই নিয়মগুলো মেনে চললে ক্যান্টিনে একটি স্বাস্থ্যকর এবং মনোরম পরিবেশ বজায় রাখা সম্ভব হবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৪</h4>
+        <p>
+          নোটিশ ১৪: কলেজের নতুন ভবনের উদ্বোধন।
+আগামী ২০শে অক্টোবর, ২০২৫ তারিখে আমাদের কলেজের নতুন একাডেমিক ভবনের উদ্বোধন করা হবে।
+এই ভবনটিতে নতুন শ্রেণীকক্ষ, একটি অত্যাধুনিক কম্পিউটার ল্যাব এবং একটি উন্নত বিজ্ঞানাগার রয়েছে।
+এই নতুন সুবিধাগুলো শিক্ষার্থীদের শিক্ষণ অভিজ্ঞতাকে আরও সমৃদ্ধ করবে। উদ্বোধনী অনুষ্ঠানে স্থানীয় গণ্যমান্য ব্যক্তিবর্গ এবং শিক্ষাবিদরা উপস্থিত থাকবেন।
+<br><br>
+          উদ্বোধনী অনুষ্ঠানটি সকাল ১১টায় শুরু হবে এবং সকলের উপস্থিতি আন্তরিকভাবে কামনা করা হচ্ছে।
+এটি আমাদের কলেজের উন্নয়নের একটি গুরুত্বপূর্ণ ধাপ। নতুন ভবনটি আমাদের শিক্ষার্থীদের জন্য উচ্চমানের শিক্ষা প্রদানে আরও সহায়ক হবে।
+আমরা বিশ্বাস করি, এই নতুন অবকাঠামো আমাদের কলেজের গৌরব বৃদ্ধি করবে এবং শিক্ষার্থীদের জন্য নতুন দিগন্ত উন্মোচন করবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৫</h4>
+        <p>
+          নোটিশ ১৫: কলেজে রক্তদান কর্মসূচি।
+আগামী ১৫ই নভেম্বর, ২০২৫ তারিখে কলেজের উদ্যোগে একটি রক্তদান কর্মসূচির আয়োজন করা হয়েছে।
+এই মহৎ উদ্যোগে সকল শিক্ষার্থী, শিক্ষক এবং কর্মচারীকে অংশ নেওয়ার জন্য অনুরোধ করা হচ্ছে।
+রক্তদান একটি জীবন বাঁচানোর মহান কাজ এবং সমাজের প্রতি আমাদের একটি গুরুত্বপূর্ণ দায়িত্ব।
+<br><br>
+          রক্তদান কর্মসূচির জন্য প্রয়োজনীয় যোগ্যতা: ১.
+রক্তদাতার বয়স ১৮ থেকে ৬০ বছরের মধ্যে হতে হবে। ২. শরীরের ওজন কমপক্ষে ৫০ কেজি হতে হবে। ৩.
+রক্তদানের পূর্বে কোনো ধরনের অসুস্থতা থাকা যাবে না। ৪. রক্তদানের সময় সমস্ত নিরাপত্তা এবং স্বাস্থ্যবিধি মেনে চলা হবে।
+যারা রক্ত দিতে আগ্রহী, তারা ১৫ই নভেম্বর সকাল ৯টা থেকে দুপুর ১টা পর্যন্ত কলেজ স্বাস্থ্যকেন্দ্রে নাম নিবন্ধন করতে পারবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৬</h4>
+        <p>
+          নোটিশ ১৬: বিতর্ক প্রতিযোগিতা সম্পর্কিত ঘোষণা।
+কলেজের বিতর্ক ক্লাব আগামী ৫ই অক্টোবর, ২০২৫ তারিখে আন্তঃকলেজ বিতর্ক প্রতিযোগিতার আয়োজন করছে।
+এই প্রতিযোগিতায় অংশগ্রহণের মাধ্যমে শিক্ষার্থীরা তাদের যুক্তি, উপস্থাপনা এবং সমালোচনামূলক চিন্তাভাবনার দক্ষতা প্রদর্শন করতে পারবে।
+প্রতিযোগিতার বিষয়বস্তু নোটিশ বোর্ডে প্রকাশ করা হয়েছে।
+          <br><br>
+          আগ্রহী শিক্ষার্থীরা আগামী ৩০শে সেপ্টেম্বর পর্যন্ত তাদের নাম নিবন্ধন করতে পারবে।
+প্রতিটি দল ৩ জন সদস্য নিয়ে গঠিত হবে। বিচারক প্যানেলে অভিজ্ঞ শিক্ষাবিদ এবং বিতর্ক বিশেষজ্ঞরা থাকবেন।
+বিজয়ী দলকে আকর্ষণীয় পুরস্কার এবং সার্টিফিকেট প্রদান করা হবে। আমরা আশা করি, এই প্রতিযোগিতা শিক্ষার্থীদের মধ্যে যুক্তি ও বিতর্কের প্রতি আগ্রহ বাড়াতে সাহায্য করবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৭</h4>
+        <p>
+          নোটিশ ১৭: ক্যারিয়ার গাইডেন্স সেমিনার।
+শিক্ষার্থীদের ভবিষ্যৎ কর্মজীবনের পথ নির্দেশনার জন্য একটি ক্যারিয়ার গাইডেন্স সেমিনারের আয়োজন করা হয়েছে।
+সেমিনারটি আগামী ১০ই অক্টোবর, ২০২৫ তারিখে সকাল ১০টায় কলেজ মিলনায়তনে অনুষ্ঠিত হবে।
+এই সেমিনারে দেশের বিভিন্ন শীর্ষস্থানীয় বিশ্ববিদ্যালয় এবং প্রতিষ্ঠানের বিশেষজ্ঞরা উপস্থিত থাকবেন।
+<br><br>
+          বিশেষজ্ঞরা শিক্ষার্থীদের বিভিন্ন পেশা, উচ্চশিক্ষার সুযোগ এবং কর্মজীবনে সফল হওয়ার কৌশল সম্পর্কে পরামর্শ দেবেন।
+সকল একাদশ ও দ্বাদশ শ্রেণীর শিক্ষার্থীদের এই সেমিনারে অংশ নেওয়ার জন্য উৎসাহিত করা হচ্ছে।
+এটি তাদের ভবিষ্যৎ পেশা নির্বাচনের ক্ষেত্রে একটি গুরুত্বপূর্ণ সিদ্ধান্ত নিতে সহায়ক হবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৮</h4>
+        <p>
+          নোটিশ ১৮: কলেজের বার্ষিক পিকনিক।
+শিক্ষার্থীদের মাঝে একঘেয়েমি কাটিয়ে আনন্দময় মুহূর্ত তৈরি করার জন্য আগামী ২০শে ডিসেম্বর, ২০২৫ তারিখে কলেজের বার্ষিক পিকনিকের আয়োজন করা হয়েছে।
+পিকনিকের স্থান এবং বিস্তারিত খরচ শীঘ্রই জানানো হবে।
+          <br><br>
+          আগ্রহী শিক্ষার্থীরা আগামী ৩০শে নভেম্বর পর্যন্ত পিকনিকের জন্য নাম নিবন্ধন করতে পারবে।
+পিকনিকের সময়সূচী এবং নিয়মাবলী নোটিশ বোর্ডে প্রকাশ করা হবে। আমরা আশা করি, এই পিকনিকটি শিক্ষার্থীদের জন্য একটি আনন্দময় এবং স্মরণীয় অভিজ্ঞতা হবে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-১৯</h4>
+        <p>
+          নোটিশ ১৯: কলেজের নতুন ওয়েবসাইট চালু।
+আপনাদের সুবিধার্থে আমাদের কলেজের নতুন ওয়েবসাইট চালু করা হয়েছে। এই ওয়েবসাইটে আপনারা সকল নোটিশ, পরীক্ষার সময়সূচী, ফলাফল এবং অন্যান্য গুরুত্বপূর্ণ তথ্য পাবেন।
+নতুন ওয়েবসাইটটি ব্যবহারের জন্য সকল শিক্ষার্থী এবং অভিভাবককে অনুরোধ করা হচ্ছে।
+<br><br>
+          নতুন ওয়েবসাইটটিতে বিভিন্ন বিভাগে প্রবেশ করে আপনারা কলেজের বিভিন্ন তথ্য জানতে পারবেন।
+যদি কোনো শিক্ষার্থী ওয়েবসাইট ব্যবহারে কোনো সমস্যার সম্মুখীন হয়, তাহলে তারা কলেজের আইটি বিভাগে যোগাযোগ করতে পারে।
+</p>
+      </div>
+      <div class="notice-text">
+        <h4 style="color:#38bdf8;">নোটিশ-২০</h4>
+        <p>
+          নোটিশ ২০: শিক্ষার্থীদের জন্য স্বাস্থ্য পরীক্ষা।
+সকল শিক্ষার্থীর স্বাস্থ্য নিশ্চিত করার জন্য আগামী ৫ই নভেম্বর, ২০২৫ তারিখে কলেজে একটি বিনামূল্যে স্বাস্থ্য পরীক্ষার আয়োজন করা হয়েছে।
+এই পরীক্ষায় ডাক্তাররা শিক্ষার্থীদের শারীরিক অবস্থা পরীক্ষা করবেন এবং প্রয়োজনীয় পরামর্শ দেবেন।
+<br><br>
+          সকল শিক্ষার্থীকে এই স্বাস্থ্য পরীক্ষায় অংশ নেওয়ার জন্য উৎসাহিত করা হচ্ছে।
+এটি তাদের শারীরিক এবং মানসিক সুস্থতা নিশ্চিত করতে সাহায্য করবে। আমরা আশা করি, এই উদ্যোগটি সকল শিক্ষার্থীর জন্য উপকারী হবে।
+</p>
+      </div>
+    </div>
+    <div class="card" id="prayer">
+      <h3>🕌 Prayer Time</h3>
+      <p>Daily prayer schedule for all students & teachers.</p>
+      <h4 id="currentTime" style="color: #facc15; margin-top: 10px;"></h4>
+      <table class="prayer-times-table">
+        <thead>
+          <tr>
+            <th>নামাজের নাম</th>
+            <th>সময় (রাজশাহী 
+বিভাগ)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>ফজর</td>
+            <td id="fajr"></td>
+          </tr>
+          <tr>
+            <td>যোহর</td>
+       
+      <td id="dhuhr"></td>
+          </tr>
+          <tr>
+            <td>আসর</td>
+            <td id="asr"></td>
+          </tr>
+          <tr>
+            <td>মাগরিব</td>
+            <td id="maghrib"></td>
+    
+        </tr>
+          <tr>
+            <td>ইশা</td>
+            <td id="isha"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <footer>
+    © 2025 কাশিনাথপুর মহিলা ডিগ্রি কলেজ |
+Ultra Cinematic Premium UI/UX
+  </footer>
+</div>
+<script>
+// Sidebar Toggle
+const menuToggle = document.getElementById('menuToggle');
+const sidebar = document.getElementById('sidebar');
+const mainContent = document.getElementById('mainContent');
+menuToggle.addEventListener('click', () => {
+  sidebar.classList.toggle('hidden');
+  mainContent.classList.toggle('shifted');
+});
+// Card scroll animation
+const cards=document.querySelectorAll('.card');
+const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');}});},{threshold:0.2});
+cards.forEach(card=>observer.observe(card));
+// Particles
+const particleContainer=document.getElementById('particles');
+for(let i=0;i<80;i++){
+  const particle=document.createElement('div');
+  particle.classList.add('particle');
+  particle.style.top=Math.random()*100+'%';
+  particle.style.left=Math.random()*100+'%';
+  particle.style.width=particle.style.height=(Math.random()*4+2)+'px';
+  particle.style.animationDuration=(10+Math.random()*15)+'s';
+  particleContainer.appendChild(particle);
+}
+// Hero mouse tilt
+const hero=document.getElementById('hero');
+hero.addEventListener('mousemove',e=>{
+  const x=e.clientX/window.innerWidth-0.5;
+  const y=e.clientY/window.innerHeight-0.5;
+  hero.style.transform=`rotateY(${x*8}deg) rotateX(${-y*8}deg)`;
+});
+hero.addEventListener('mouseleave',()=>{hero.style.transform='rotateY(0deg) rotateX(0deg)';});
+// Sidebar menu scroll
+const menuItems = document.querySelectorAll('.sidebar ul li');
+menuItems.forEach(item=>{
+  item.addEventListener('click',()=>{
+    const targetId = item.getAttribute('data-target');
+    const targetEl = document.getElementById(targetId);
+    if(targetEl){
+      targetEl.scrollIntoView({behavior:'smooth'});
+    }
+  });
+});
+// Card Toggle functionality
+const teacherCard = document.getElementById('teacher');
+const teacherTableWrapper = document.getElementById('teacherTableWrapper');
+const scrollButtons = document.getElementById('scrollButtons');
+const noticeCard = document.getElementById('notice');
+const noticeTexts = noticeCard.querySelectorAll('.notice-text');
+const prayerCard = document.getElementById('prayer');
+const prayerTable = prayerCard.querySelector('.prayer-times-table');
+const studentCard = document.getElementById('student');
+const studentTable = document.getElementById('studentTableContainer');
+const currentTimeDisplay = document.getElementById('currentTime');
+teacherCard.addEventListener('click',()=>{
+  const isTableVisible = teacherTableWrapper.style.display === 'block';
+  teacherTableWrapper.style.display = isTableVisible ? 'none' : 'block';
+  scrollButtons.style.display = isTableVisible ? 'none' : 'flex';
+});
+noticeCard.addEventListener('click',()=>{
+  const isAnyTextVisible = noticeTexts[0].style.display === 'block';
+  noticeTexts.forEach(text => {
+    text.style.display = isAnyTextVisible ? 'none' : 'block';
+  });
+});
+prayerCard.addEventListener('click',()=>{
+  const isTableVisible = prayerTable.style.display === 'table';
+  prayerTable.style.display = isTableVisible ? 'none' : 'table';
+});
+studentCard.addEventListener('click',()=>{
+  const isTableVisible = studentTable.style.display === 'block';
+  studentTable.style.display = isTableVisible ? 'none' : 'block';
+});
+// Teacher Table Scroll Buttons
+const scrollLeftBtn = document.getElementById('scrollLeftBtn');
+const scrollRightBtn = document.getElementById('scrollRightBtn');
+scrollLeftBtn.addEventListener('click', () => {
+  teacherTableWrapper.scrollBy({
+    left: -200, 
+    behavior: 'smooth'
+  });
+});
+scrollRightBtn.addEventListener('click', () => {
+  teacherTableWrapper.scrollBy({
+    left: 200, 
+    behavior: 'smooth'
+  });
+});
+// Update current time and prayer times
+function updateTimeAndPrayerTimes() {
+    const now = new Date();
+const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true };
+const formattedDate = now.toLocaleDateString('bn-BD', options);
+    
+    // Prayer times for Rajshahi Division (approximated)
+    const prayerTimes = {
+        fajr: '4:30 AM',
+        dhuhr: '12:00 PM',
+        asr: '4:15 PM',
+        maghrib: '6:05 PM',
+        isha: '7:30 PM'
+    };
+currentTimeDisplay.textContent = `বর্তমান সময়: ${formattedDate}`;
+    document.getElementById('fajr').textContent = prayerTimes.fajr;
+    document.getElementById('dhuhr').textContent = prayerTimes.dhuhr;
+    document.getElementById('asr').textContent = prayerTimes.asr;
+    document.getElementById('maghrib').textContent = prayerTimes.maghrib;
+    document.getElementById('isha').textContent = prayerTimes.isha;
+}
+setInterval(updateTimeAndPrayerTimes, 1000);
+updateTimeAndPrayerTimes(); // Initial call to display immediately
+</script>
+</body>
+</html>
